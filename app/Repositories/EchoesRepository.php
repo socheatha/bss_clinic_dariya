@@ -116,7 +116,8 @@ class EchoesRepository
 		$echoes = Echoes::create(GlobalComponent::MergeRequestPatient($request, [
 			'date' => $request->date,
 			'pt_diagnosis' => $request->pt_diagnosis,
-			'description' => $request->description,
+			// 'description' => $request->description,
+			'description' => str_replace('\'', '\\\'', $request->description),
 			'echo_default_description_id' => $echo_default_description->id,
 			'created_by' => Auth::user()->id,
 			'updated_by' => Auth::user()->id,

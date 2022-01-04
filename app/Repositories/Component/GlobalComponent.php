@@ -43,49 +43,49 @@ class GlobalComponent extends Controller
 		');
 		
 		// Top Header
-		if ($module == 'echo') {
-			if ($object->echo_default_description->slug == 'letter-form-the-hospital') {
-				$html_header .= '
-					<div class="KHOSMoulLight text-center" style=="font-size: 16px;">ព្រះរាជាណាចក្រកម្ពុជា</div>
-					<div class="KHOSMoulLight text-center" style=="font-size: 16px;">ជាតិ   សាសនា    ព្រះមហាក្សត្រ</div>
-					<table class="table-header" width="100%">
-						<tr>
-							<td  width="30%" class="text-center">
-								<div style="width: 3cm; height: 3cm; margin: 0 auto;"><img src="/images/setting/logo.png" alt="IMG"></div>
-								<div class="KHOSMoulLight" style="padding: 5px 0;">មន្ទីសុខាភិបាលខេត្តកំពង់ចាម</div>
-								<div class="KHOSMoulLight">'. $this->clinic_name_kh .'</div>
-							</td>
-							<td width="30%" class="text-center">
-							</td>
-							<td width="40%" class="text-center">
-								<br/>
-								<div>'. $this->address .'</div>
-								<div style="padding: 5px 0;">Tel: '. $this->phone .'</div>
-							</td>
-						</tr>
-					</table>
-				';
-			} else {
-				$html_header .= '
-					<table class="table-header" width="100%">
-						<tr>
-							<td width="40%">
-								<div class="KHOSMoulLight"style="color: red;">'. $this->sign_name_kh .'</div>
-								<div style="color: blue; font-weight: bold; text-transform: uppercase; padding: 5px 0;">'. $this->sign_name_en .'</div>
-								<div>'. $this->echo_description .'</div>
-							</td>
-							<td  width="20%">
-								<img src="/images/setting/logo.png" alt="IMG">
-							</td>
-							<td width="40%" class="text-center">
-								<div>'. $this->echo_address .'</div>
-								<div style="padding: 5px 0;">Tel: '. $this->phone .'</div>
-							</td>
-						</tr>
-					</table>
-				';
-			}
-		} else {
+		// if ($module == 'echo') {
+		// 	if ($object->echo_default_description->slug == 'letter-form-the-hospital') {
+		// 		$html_header .= '
+		// 			<div class="KHOSMoulLight text-center" style=="font-size: 16px;">ព្រះរាជាណាចក្រកម្ពុជា</div>
+		// 			<div class="KHOSMoulLight text-center" style=="font-size: 16px;">ជាតិ   សាសនា    ព្រះមហាក្សត្រ</div>
+		// 			<table class="table-header" width="100%">
+		// 				<tr>
+		// 					<td  width="30%" class="text-center">
+		// 						<div style="width: 3cm; height: 3cm; margin: 0 auto;"><img src="/images/setting/logo.png" alt="IMG"></div>
+		// 						<div class="KHOSMoulLight" style="padding: 5px 0;">មន្ទីសុខាភិបាលខេត្តកំពង់ចាម</div>
+		// 						<div class="KHOSMoulLight">'. $this->clinic_name_kh .'</div>
+		// 					</td>
+		// 					<td width="30%" class="text-center">
+		// 					</td>
+		// 					<td width="40%" class="text-center">
+		// 						<br/>
+		// 						<div>'. $this->address .'</div>
+		// 						<div style="padding: 5px 0;">Tel: '. $this->phone .'</div>
+		// 					</td>
+		// 				</tr>
+		// 			</table>
+		// 		';
+		// 	} else {
+		// 		$html_header .= '
+		// 			<table class="table-header" width="100%">
+		// 				<tr>
+		// 					<td width="40%">
+		// 						<div class="KHOSMoulLight"style="color: red;">'. $this->sign_name_kh .'</div>
+		// 						<div style="color: blue; font-weight: bold; text-transform: uppercase; padding: 5px 0;">'. $this->sign_name_en .'</div>
+		// 						<div>'. $this->echo_description .'</div>
+		// 					</td>
+		// 					<td  width="20%">
+		// 						<img src="/images/setting/logo.png" alt="IMG">
+		// 					</td>
+		// 					<td width="40%" class="text-center">
+		// 						<div>'. $this->echo_address .'</div>
+		// 						<div style="padding: 5px 0;">Tel: '. $this->phone .'</div>
+		// 					</td>
+		// 				</tr>
+		// 			</table>
+		// 		';
+		// 	}
+		// } else {
 			$html_header .= '		
 				<table class="table-header" width="100%">
 					<tr>					
@@ -108,7 +108,7 @@ class GlobalComponent extends Controller
 					</tr>
 				</table>
 			';
-		}
+		// }
 		// Sub Header
 
 		$html_header .= '
