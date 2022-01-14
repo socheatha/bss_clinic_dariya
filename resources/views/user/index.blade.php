@@ -42,7 +42,7 @@
 						<td>{{ $user->email }}</td>
 						<td>{{ $user->phone }}</td>
 						<td>{{ @$user->roles->first()->name }}</td>
-						<td class="text-right">
+						<td class="text-center">
 
 							@can('User Assign Role')
 								<a href="{{ route('user.role',$user->id) }}" class="btn btn-primary btn-xs btn-flat" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.assign') }}"><i class="fa fa-user-graduate"></i></a>

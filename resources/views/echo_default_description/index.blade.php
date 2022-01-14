@@ -15,7 +15,7 @@
 		@endcomponent
 	</div>
 	<div class="card-body">
-		<table id="datatables-2" class="table table-bordered table-hover table-responsive">
+		<table id="datatables-2" class="table table-bordered table-hover">
 			<thead>
 				<tr>
 					<th width="30px">{!! __('module.table.no') !!}</th>
@@ -35,7 +35,7 @@
 						<td>{!! $record_locked ? '<i class="fa fa-lock fa-fw"></i> ' : '' !!}{{ $echo_default_description->name }}</td>
 						<td>{{ $echo_default_description->slug }}</td>
 						<td class="text-center js_load_dynamic_content" data-btn_name="ចុចទីនេះដើម្បីមើលលម្អិត">{!! $echo_default_description->description !!}</td>
-						<td class="text-right">
+						<td class="text-center">
 							@can('Echo Default Description Edit')
 								<a href="{{ route('echo_default_description.edit', $echo_default_description->id) }}" class="btn btn-info btn-xs btn-flat" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.edit') }}"><i class="fa fa-pencil-alt"></i></a>
 							@endcan
