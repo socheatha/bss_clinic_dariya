@@ -606,3 +606,6 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .card-body table thead tr td, .card-body table thead tr th {
   white-space: nowrap;
 }
+.bg-dark-red, .bg-dark-red:hover td {
+  background-color: red; color: #fff;
+}

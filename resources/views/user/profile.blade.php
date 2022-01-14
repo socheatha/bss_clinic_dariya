@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('css')
-	<style class="text/css">
-		#datatables th,
-		#datatables td{
-			padding: 8px;
-		}
-	</style>
+<style class="text/css">
+	#datatables th,
+	#datatables td {
+		padding: 8px;
+	}
+</style>
 @endsection
 
 @section('content')
@@ -43,7 +43,7 @@
 				</ul>
 
 				<a class="btn btn-danger btn-block btn-flat" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-						<i class="fa fa-sign-out-alt"></i> &nbsp;{{ __('label.buttons.sign_out') }}</a>
+					<i class="fa fa-sign-out-alt"></i> &nbsp;{{ __('label.buttons.sign_out') }}</a>
 				</a>
 
 			</div>
@@ -120,12 +120,12 @@
 									<td class="text-center" colspan="2"> {{ __('alert.all_permission') }} ​</td>
 								</tr>
 								@else --}}
-									@foreach (Auth::user()->getAllPermissions() as $item => $permission)
-									<tr>
-										<td width="30%">{{ $permission->name }}</td>
-										<td><small>{{ $permission->description }}</small></td>
-									</tr>
-									@endforeach
+								@foreach (Auth::user()->getAllPermissions() as $item => $permission)
+								<tr>
+									<td width="30%">{{ $permission->name }}</td>
+									<td><small>{{ $permission->description }}</small></td>
+								</tr>
+								@endforeach
 								{{-- @endif --}}
 							</tbody>
 						</table>
@@ -133,7 +133,7 @@
 					<!-- /.tab-pane -->
 
 					<div class="tab-pane {{ (($profileTab == 'edit')? 'active' : '') }}" id="edit">
-						
+
 						<!-- Error Message -->
 						@component('components.crud_alert')
 						@endcomponent
@@ -170,7 +170,7 @@
 								</div>
 							</div>
 							{{-- / .col --}}
-				
+
 							<div class="col-sm-6">
 								<div class="form-group">
 									{!! Html::decode(Form::label('last_name', __('label.form.user.last_name')." <small>*</small>")) !!}
@@ -184,10 +184,10 @@
 									{!! $errors->first('phone', '<span class="help-block">:message</span>') !!}
 								</div>
 							</div>
-					
+
 						</div>
 						{{-- / .row --}}
-		
+
 						<div class="card-footer text-muted text-center mt-4 pb-0 pt-3">
 							@include('components.submit')
 						</div>
@@ -198,7 +198,7 @@
 					<!-- /.tab-pane -->
 
 					<div class="tab-pane {{ (($profileTab == 'password')? 'active' : '') }}" id="password">
-						
+
 						<!-- Error Message -->
 						@component('components.crud_alert')
 						@endcomponent
@@ -206,7 +206,7 @@
 						{!! Form::open(['url' => route('user.update', [Auth::user()->id, 'updatePassowrd']),'method' => 'post','autocomplete'=>'off']) !!}
 						{!! Form::hidden('_method', 'PUT') !!}
 						{!! Form::hidden('profileTab', 'password') !!}
-						
+
 						<div class="form-group">
 							{!! Html::decode(Form::label('email', __('label.form.email'))) !!}
 							{!! Form::email('email', Auth::user()->email, ['class' => 'form-control '. (($errors->has("email"))? "is-invalid" : ""),'placeholder' => 'email','readonly']) !!}
@@ -234,7 +234,7 @@
 								</div>
 							</div>
 						</div>
-		
+
 						<div class="card-footer text-muted text-center mt-4 pb-0 pt-3">
 							@include('components.submit')
 						</div>
@@ -257,12 +257,8 @@
 									</div>
 									<div class="fileinput-preview fileinput-exists img-thumbnail" style="max-width: 248px;"></div>
 									<div class="mt-2">
-										<span class="btn btn-outline-secondary btn-file"><span
-												class="fileinput-new">{{ __('label.buttons.select') }}</span><span
-												class="fileinput-exists">{{ __('label.buttons.change') }}</span><input type="file"
-												name="image" /></span>
-										<a href="#" class="btn btn-outline-secondary fileinput-exists"
-											data-dismiss="fileinput">{{ __('label.buttons.remove') }}</a>
+										<span class="btn btn-outline-secondary btn-file"><span class="fileinput-new">{{ __('label.buttons.select') }}</span><span class="fileinput-exists">{{ __('label.buttons.change') }}</span><input type="file" name="image" /></span>
+										<a href="#" class="btn btn-outline-secondary fileinput-exists" data-dismiss="fileinput">{{ __('label.buttons.remove') }}</a>
 									</div>
 								</div>
 							</div>
@@ -270,7 +266,7 @@
 							<br />
 						</div>
 						{{-- / .row --}}
-			
+
 						<div class="card-footer text-muted text-center mt-4 pb-0 pt-3">
 							@include('components.submit')
 						</div>
@@ -289,7 +285,7 @@
 @endsection
 
 @section('js')
-	<script type="text/javascript">
-		
-	</script>
+<script type="text/javascript">
+
+</script>
 @endsection
