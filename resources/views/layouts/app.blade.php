@@ -37,6 +37,7 @@
 					@yield('content')
 					
 				</div><!-- /.container-fluid -->
+				@include('components.dynamic_modal_content')
 			</section>
 			<!-- /.content -->
 		</div>

@@ -226,4 +226,17 @@ $(document).ready(function () {
             } 
         });
     });
+
+    // @Socheatha
+    $list_much_text = [];
+    $('.js_load_dynamic_content').each(function (i, e) {
+        $list_much_text[i] = $(e).html();
+        $(e).data('eq', i)
+        $(e).html('<button class="load_dynamic_content btn btn-xs btn-info btn-flat" data-eq="' + i + '">' + $(e).data('btn_name') + '</button>');
+    });
+
+    $('.load_dynamic_content').on('click', function () {
+        $('#modal_dynamic_content').find('.modal-body').html($list_much_text[$(this).data('eq')]);
+        $('#modal_dynamic_content').modal('show');
+    });
 });

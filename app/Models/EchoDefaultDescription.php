@@ -12,5 +12,8 @@ class EchoDefaultDescription extends BaseModel
 		'name', 'slug', 'description',
 	];
 
-
+	public function echos()
+	{
+		return $this->hasMany('App\Models\Echoes', 'echo_default_description_id');
+	}
 }
