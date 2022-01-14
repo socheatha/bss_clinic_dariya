@@ -117,6 +117,11 @@ return [
     'role' => [
       'permission' => 'សិទ្ធិប្រើប្រាស់',
       'user' => 'អ្នកប្រើប្រាស់',
+      'permission' => 'ចំនួនសិទ្ធិ',
+	],
+
+	'permission' => [
+		'role' => 'ចំនួនតួនាទី',
 	],
 	
 	'selection' => [
