@@ -40,7 +40,11 @@
                         <td>{{ $patient->email }}</td>
                         <td>{{ $patient->phone }}</td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-info btn-xs btn-flat" onclick="getDetail({{ $patient->id }})" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.show') }}"><i class="fa fa-list"></i></button>
+                            @if ($record_locked)
+                                <button type="button" class="btn btn-info btn-xs btn-flat" onclick="getDetail({{ $patient->id }})" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.show') }}"><i class="fa fa-list"></i></button>
+                            @else
+                                <button type="button" class="btn btn-info btn-xs btn-flat disabled"><i class="fa fa-list"></i></button>
+                            @endif
 
                             {{-- @can('Patient Show')
                                 <button type="button" class="btn btn-warning btn-xs btn-flat" onclick="getDetail({{ $patient->id }})" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.show') }}"><i class="fa fa-eye"></i></button>
@@ -79,12 +83,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="myModalLabel">{{ __('alert.modal.title.detail') }}</h4>
+                <ul class="nav nav-tabs" id="myTabHeader" role="tablist"style="transform: translateY(18px); margin-left: 30px;">
+                    <!-- Spare data for AJAX load -->
+                </ul>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div id="patient_detail">
+                <div id="patient_detail">                    
                     <div class="row">
                         <div class="col xs-12 col-sm-4 col-md-4" id="history_list" style="max-height: 650px; overflow: auto;">
                             <!-- Spare data for AJAX load -->
@@ -122,20 +129,42 @@
 							<th class="text-center">{!! __('module.table.action') !!}</th>
 						</tr>
 					`;
+                var tabs_structure = '';
                 hisory.forEach((h, i) => {
                     _age_type = "{!! __('module.table.selection.age_type_1') !!}";
                     if (h['pt_age_type'] && h['pt_age_type'] == 2) _age_type = "{!! __('module.table.selection.age_type_2') !!}";
-                    html_structure += `<tr>
-							<td><a href="javascript:getPatientInfo(${id})">${h['pt_name']}</a></td>
-							<td class="text-center">${h['date']}</td>
-							<td class="text-center">${bss_number(h['pt_age'])} ${_age_type}</td>
-							<td class="text-center"><a href="javascript:getPrintPage('${h['link']}')">${h['label_info']}</a></td>
-						</tr>`;
+                    
+                    if (!tabs_structure.includes(h['label_info'])) {
+                        tabs_structure += `<li class="nav-item">
+                            <a class="nav-link ${(i == 0 ? 'active' : '')}" href="#" onclick="refresh_history('${h['label_info']}')" data-toggle="tab" role="tab" aria-controls="${h['label_info']}" aria-selected="false">${h['label_info']}</a>
+                        </li>`;
+                    }
+
+                    html_structure += `<tr data-tab="${h['label_info']}">
+                        <td><a href="javascript:getPatientInfo(${id})">${h['pt_name']}</a></td>
+                        <td class="text-center">${h['date']}</td>
+                        <td class="text-center">${bss_number(h['pt_age'])} ${_age_type}</td>
+                        <td class="text-center"><a href="javascript:getPrintPage('${h['link']}')">${h['label_info']}</a></td>
+                    </tr>`;
                 });
                 html_structure += `</table>`;
+
+                $('#myTabHeader').html(tabs_structure);
                 $('#history_list').html(html_structure);
+                setTimeout(function () {
+                    refresh_history($('#myTabHeader').find('li:first > a').html());
+                }, 500);
+
                 $('#modal_patient_detail').modal('show');
             }
+        });
+    }
+
+    function refresh_history (filter_text) {        
+        $('#history_list').find('table tr:not(:first-child)').hide();
+        $('#history_list').find('table tr[data-tab="' + filter_text + '"]').show();
+        $("#history_list > table tr:visible").each(function (index) {
+            $(this).css("background-color", !!(index & 1)? "rgba(0,0,0,.05)" : "rgba(0,0,0,0)");
         });
     }
 
