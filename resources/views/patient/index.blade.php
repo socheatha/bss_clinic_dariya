@@ -1,11 +1,4 @@
 @extends('layouts.app')
-
-@section('css')
-<style class="text/css">
-
-</style>
-@endsection
-
 @section('content')
 <div class="card">
     <div class="card-header">
@@ -20,17 +13,15 @@
         <!-- Error Message -->
         @component('components.crud_alert')
         @endcomponent
-
     </div>
-
     <div class="card-body">
         <table id="datatables-2" class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th width="10%">{!! __('module.table.no') !!}</th>
                     <th>{!! __('module.table.name') !!}</th>
-                    <th width="80px">{!! __('module.table.gender') !!}</th>
-                    <th width="80px">{!! __('module.table.patient.age') !!}</th>
+                    <th>{!! __('module.table.gender') !!}</th>
+                    <th>{!! __('module.table.patient.age') !!}</th>
                     <th>{!! __('module.table.email') !!}</th>
                     <th>{!! __('module.table.phone') !!}</th>
                     <th width="10%">{!! __('module.table.action') !!}</th>
@@ -38,36 +29,40 @@
             </thead>
             <tbody>
                 @foreach($patients as $i => $patient)
-                <tr>
-                    <td class="text-center">{{ str_pad($patient->id, 6, "0", STR_PAD_LEFT) }}</td>
-                    <td>{{ $patient->name }}</td>
-                    <td class="text-center">{{ (($patient->gender==1)? __('label.form.male') : __('label.form.female')) }}</td>
-                    <td class="text-center">{{ $patient->age }} {{ __('module.table.selection.age_type_' . $patient->age_type) }}</td>
-                    <td>{{ $patient->email }}</td>
-                    <td>{{ $patient->phone }}</td>
-                    <td class="text-right">
-                        <button type="button" class="btn btn-info btn-sm btn-flat" onclick="getDetail({{ $patient->id }})" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.show') }}"><i class="fa fa-list"></i></button>
+                    @php
+						$record_locked = $patient->recordLocked();
+					@endphp
+                    <tr>
+                        <td class="text-center">{{ str_pad($patient->id, 6, "0", STR_PAD_LEFT) }}</td>
+                        <td>{!! $record_locked ? '<i class="fa fa-lock fa-fw"></i> ' : '' !!}{{ $patient->name }}</td>
+                        <td class="text-center">{{ (($patient->gender==1)? __('label.form.male') : __('label.form.female')) }}</td>
+                        <td class="text-center">{{ $patient->age }} {{ __('module.table.selection.age_type_' . $patient->age_type) }}</td>
+                        <td>{{ $patient->email }}</td>
+                        <td>{{ $patient->phone }}</td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-info btn-xs btn-flat" onclick="getDetail({{ $patient->id }})" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.show') }}"><i class="fa fa-list"></i></button>
 
-                        {{-- @can('Patient Show')
-							<button type="button" class="btn btn-warning btn-sm btn-flat" onclick="getDetail({{ $patient->id }})" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.show') }}"><i class="fa fa-eye"></i></button>
-                        @endcan --}}
+                            {{-- @can('Patient Show')
+                                <button type="button" class="btn btn-warning btn-xs btn-flat" onclick="getDetail({{ $patient->id }})" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.show') }}"><i class="fa fa-eye"></i></button>
+                            @endcan --}}
 
-                        @can('Patient Edit')
-                        {{-- Edit Button --}}
-                        <a href="{{ route('patient.edit', $patient->id) }}" class="btn btn-info btn-sm btn-flat" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.edit') }}"><i class="fa fa-pencil-alt"></i></a>
-                        @endcan
+                            @can('Patient Edit')
+                            <a href="{{ route('patient.edit', $patient->id) }}" class="btn btn-info btn-xs btn-flat" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.edit') }}"><i class="fa fa-pencil-alt"></i></a>
+                            @endcan
 
-                        @can('Patient Delete')
-                        {{-- Delete Button --}}
-                        <button class="btn btn-danger btn-sm btn-flat BtnDeleteConfirm" value="{{ $patient->id }}" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.delete') }}"><i class="fa fa-trash-alt"></i></button>
-                        {{ Form::open(['url'=>route('patient.destroy', $patient->id), 'id' => 'form-item-'.$patient->id, 'class' => 'sr-only']) }}
-                        {{ Form::hidden('_method','DELETE') }}
-                        {{ Form::hidden('passwordDelete','') }}
-                        {{ Form::close() }}
-                        @endcan
-
-                    </td>
-                </tr>
+                            @can('Patient Delete')
+                                @if(!$record_locked)
+                                    <button class="btn btn-danger btn-xs btn-flat BtnDeleteConfirm" value="{{ $patient->id }}" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.delete') }}"><i class="fa fa-trash-alt"></i></button>
+                                    {{ Form::open(['url'=>route('patient.destroy', $patient->id), 'id' => 'form-item-'.$patient->id, 'class' => 'sr-only']) }}
+                                    {{ Form::hidden('_method','DELETE') }}
+                                    {{ Form::hidden('passwordDelete','') }}
+                                    {{ Form::close() }}
+                                @else
+									<button class="btn btn-danger btn-xs btn-flat disabled"><i class="fa fa-trash-alt"></i></button>
+								@endif
+                            @endcan
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -75,7 +70,6 @@
 </div>
 
 <span class="sr-only" id="deleteAlert" data-title="{{ __('alert.swal.title.delete', ['name' => Auth::user()->module()]) }}" data-text="{{ __('alert.swal.text.unrevertible') }}" data-btnyes="{{ __('alert.swal.button.yes') }}" data-btnno="{{ __('alert.swal.button.no') }}" data-rstitle="{{ __('alert.swal.result.title.success') }}" data-rstext="{{ __('alert.swal.result.text.delete') }}"> Delete Message </span>
-
 
 {{-- Password Confirm modal --}}
 @component('components.confirm_password')@endcomponent
@@ -102,12 +96,8 @@
                 </div>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
-
 @endsection
 
 @section('js')
@@ -134,7 +124,7 @@
 					`;
                 hisory.forEach((h, i) => {
                     _age_type = "{!! __('module.table.selection.age_type_1') !!}";
-                    if (h['pt_age_type'] && h['pt_age_type'] == 2)_age_type = "{!! __('module.table.selection.age_type_2') !!}";
+                    if (h['pt_age_type'] && h['pt_age_type'] == 2) _age_type = "{!! __('module.table.selection.age_type_2') !!}";
                     html_structure += `<tr>
 							<td><a href="javascript:getPatientInfo(${id})">${h['pt_name']}</a></td>
 							<td class="text-center">${h['date']}</td>
@@ -162,7 +152,7 @@
 
     function getPatientInfo(p_id) {
         $.ajax({
-            url: 'patient/'+p_id+'/edit',
+            url: 'patient/' + p_id + '/edit',
             method: 'get',
             success: function(rs) {
                 // start to scrapt data (JSOP)
@@ -191,51 +181,51 @@
                 $('[name="passwordDelete"]').val(password_confirm);
                 if (password_confirm != '') {
                     $.ajax({
-                            url: "{{ route('user.password_confirm') }}",
-                            type: 'post',
-                            data: {
-                                id: id,
-                                _token: '{{ csrf_token() }}',
-                                password_confirm: password_confirm
-                            },
-                        })
-                        .done(function(result) {
-                            if (result == true) {
-                                Swal.fire({
-                                        icon: 'success',
-                                        title: "{{ __('alert.swal.result.title.success') }}",
-                                        confirmButtonText: "{{ __('alert.swal.button.yes') }}",
-                                        timer: 1500
-                                    })
-                                    .then((result) => {
-                                        $("form").submit(function(event) {
-                                            $('button').attr('disabled', 'disabled');
-                                        });
-                                        $('[name="passwordDelete"]').val(password_confirm);
-                                        $("#form-item-" + id).submit();
-                                    })
-                            } else {
-                                Swal.fire({
-                                        icon: 'warning',
-                                        title: "{{ __('alert.swal.result.title.wrong',['name'=>'ពាក្យសម្ងាត់']) }}",
-                                        confirmButtonText: "{{ __('alert.swal.button.yes') }}",
-                                        timer: 2500
-                                    })
-                                    .then((result) => {
-                                        $('#modal_confirm_delete').modal();
-                                    })
-                            }
-                        });
+                        url: "{{ route('user.password_confirm') }}",
+                        type: 'post',
+                        data: {
+                            id: id,
+                            _token: '{{ csrf_token() }}',
+                            password_confirm: password_confirm
+                        },
+                    })
+                    .done(function(result) {
+                        if (result == true) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: "{{ __('alert.swal.result.title.success') }}",
+                                confirmButtonText: "{{ __('alert.swal.button.yes') }}",
+                                timer: 1500
+                            })
+                            .then((result) => {
+                                $("form").submit(function(event) {
+                                    $('button').attr('disabled', 'disabled');
+                                });
+                                $('[name="passwordDelete"]').val(password_confirm);
+                                $("#form-item-" + id).submit();
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: "{{ __('alert.swal.result.title.wrong',['name'=>'ពាក្យសម្ងាត់']) }}",
+                                confirmButtonText: "{{ __('alert.swal.button.yes') }}",
+                                timer: 2500
+                            })
+                            .then((result) => {
+                                $('#modal_confirm_delete').modal();
+                            })
+                        }
+                    });
                 } else {
                     Swal.fire({
-                            icon: 'warning',
-                            title: "{{ __('alert.swal.title.empty') }}",
-                            confirmButtonText: "{{ __('alert.swal.button.yes') }}",
-                            timer: 1500
-                        })
-                        .then((result) => {
-                            $('#modal_confirm_delete').modal();
-                        })
+                        icon: 'warning',
+                        title: "{{ __('alert.swal.title.empty') }}",
+                        confirmButtonText: "{{ __('alert.swal.button.yes') }}",
+                        timer: 1500
+                    })
+                    .then((result) => {
+                        $('#modal_confirm_delete').modal();
+                    })
                 }
             });
         },
