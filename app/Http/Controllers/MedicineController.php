@@ -23,9 +23,8 @@ class MedicineController extends Controller
 	public function index()
 	{
 		$this->data = [
-				'medicines' => $this->medicines->getData(),
+			'medicines' => $this->medicines->getData(),
 		];
-
 		return view('medicine.index', $this->data);
 	}
 
@@ -34,20 +33,17 @@ class MedicineController extends Controller
 		return $this->medicines->getDetail($request);
 	}
 
-
 	public function create()
 	{
 		$this->data = [
-				'usages' => Usage::getSelectData('id', 'name', '', 'id' ,'asc'),
+			'usages' => Usage::getSelectData('id', 'name', '', 'id', 'asc'),
 		];
 		return view('medicine.create', $this->data);
 	}
 
 	public function store(MedicineRequest $request)
 	{
-		if ($this->medicines->create($request)){
-
-			// Redirect
+		if ($this->medicines->create($request)) {
 			return redirect()->route('medicine.create')
 				->with('success', __('alert.crud.success.create', ['name' => Auth::user()->module()]) . $request->name);
 		}
@@ -56,31 +52,22 @@ class MedicineController extends Controller
 	public function edit(Medicine $medicine)
 	{
 		$this->data = [
-				'medicine' => $medicine,
-				'usages' => Usage::getSelectData('id', 'name', '', 'id' ,'asc'),
+			'medicine' => $medicine,
+			'usages' => Usage::getSelectData('id', 'name', '', 'id', 'asc'),
 		];
-		
 		return view('medicine.edit', $this->data);
 	}
 
-
-
 	public function update(MedicineRequest $request, Medicine $medicine)
 	{
-
-		if ($this->medicines->update($request, $medicine)){
-
-			// Redirect
+		if ($this->medicines->update($request, $medicine)) {
 			return redirect()->route('medicine.index')
 				->with('success', __('alert.crud.success.update', ['name' => Auth::user()->module()]) . $request->name);
 		}
 	}
 
-
-
 	public function destroy(Medicine $medicine)
 	{
-		// Redirect
 		return redirect()->route('medicine.index')
 			->with('success', __('alert.crud.success.delete', ['name' => Auth::user()->module()]) . $this->medicines->destroy($medicine));
 	}

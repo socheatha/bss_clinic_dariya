@@ -35,7 +35,7 @@
 						<td>{!! $record_locked ? '<i class="fa fa-lock fa-fw"></i> ' : '' !!}{{ $service->name }}</td>
 						<td class="text-right"><span class="float-left">$</span>{{ number_format($service->price, 2) }}</td>
 						<td>{{ $service->description }}</td>
-						<td class="text-right">
+						<td class="text-center">
 
 							@can('Service Edit')
 							<a href="{{ route('service.edit', $service->id) }}" class="btn btn-info btn-xs btn-flat" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.edit') }}"><i class="fa fa-pencil-alt"></i></a>
