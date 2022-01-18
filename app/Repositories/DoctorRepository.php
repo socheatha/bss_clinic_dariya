@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use Carbon\Carbon;
 use App\Models\Doctor;
 use Auth;
 use Hash;
@@ -10,26 +9,19 @@ use Hash;
 
 class DoctorRepository
 {
-
-
 	public function getData()
 	{
 		return Doctor::all();
 	}
 
-
 	public function getDetail($request)
 	{
-
 		$doctor = Doctor::find($request->id);
-
 		$detail = '';
-
 		return response()->json([
-			'detail' => $detail ,
+			'detail' => $detail,
 		]);
 	}
-
 
 	public function create($request)
 	{
@@ -49,14 +41,11 @@ class DoctorRepository
 			'created_by' => Auth::user()->id,
 			'updated_by' => Auth::user()->id,
 		]);
-
 		return $doctor;
 	}
 
-
 	public function update($request, $doctor)
 	{
-
 		return $doctor->update([
 			'name_kh' => $request->name_kh,
 			'name_en' => $request->name_en,
@@ -72,18 +61,16 @@ class DoctorRepository
 			'description' => $request->description,
 			'updated_by' => Auth::user()->id,
 		]);
-
 	}
 
 	public function destroy($request, $doctor)
 	{
-    if (Hash::check($request->passwordDelete, Auth::user()->password)){
-			if($doctor->delete()){
-				return $doctor->name_kh ;
+		if (Hash::check($request->passwordDelete, Auth::user()->password)) {
+			if ($doctor->delete()) {
+				return $doctor->name_kh;
 			}
-    }else{
-        return false;
-    }
+		} else {
+			return false;
+		}
 	}
-
 }

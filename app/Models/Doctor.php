@@ -36,4 +36,7 @@ class Doctor extends BaseModel
   	return $this->belongsTo(District::class, 'address_district_id');
   }
   
+  public function recordLocked () {
+		return true;
+	}
 }
