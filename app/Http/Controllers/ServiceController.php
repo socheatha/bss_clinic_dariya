@@ -22,9 +22,8 @@ class ServiceController extends Controller
 	public function index()
 	{
 		$this->data = [
-				'services' => $this->services->getData(),
+			'services' => $this->services->getData(),
 		];
-
 		return view('service.index', $this->data);
 	}
 
@@ -38,7 +37,6 @@ class ServiceController extends Controller
 		return $this->services->reloadSelectService();
 	}
 
-
 	public function create()
 	{
 		return view('service.create');
@@ -46,9 +44,7 @@ class ServiceController extends Controller
 
 	public function store(ServiceRequest $request)
 	{
-		if ($this->services->create($request)){
-
-			// Redirect
+		if ($this->services->create($request)) {
 			return redirect()->route('service.create')
 				->with('success', __('alert.crud.success.create', ['name' => Auth::user()->module()]) . $request->name);
 		}
@@ -65,30 +61,21 @@ class ServiceController extends Controller
 	public function edit(Service $service)
 	{
 		$this->data = [
-				'service' => $service,
+			'service' => $service,
 		];
-		
 		return view('service.edit', $this->data);
 	}
 
-
-
 	public function update(ServiceRequest $request, Service $service)
 	{
-
-		if ($this->services->update($request, $service)){
-
-			// Redirect
+		if ($this->services->update($request, $service)) {
 			return redirect()->route('service.index')
 				->with('success', __('alert.crud.success.update', ['name' => Auth::user()->module()]) . $request->name);
 		}
 	}
 
-
-
 	public function destroy(Service $service)
 	{
-		// Redirect
 		return redirect()->route('service.index')
 			->with('success', __('alert.crud.success.delete', ['name' => Auth::user()->module()]) . $this->services->destroy($service));
 	}

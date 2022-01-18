@@ -1,5 +1,4 @@
 <div class="row">
-
 	<div class="col-sm-6">
 		<div class="form-group">
 			{!! Html::decode(Form::label('name', __('label.form.name') .' <small>*</small>')) !!}
@@ -7,7 +6,8 @@
 			{!! $errors->first('name', '<div class="invalid-feedback">:message</div>') !!}
 		</div>
 	</div>
-
+</div>
+<div class="row">
 	<div class="col-sm-6">
 		<div class="form-group">
 			{!! Html::decode(Form::label('price', __('label.form.service.price') .'($) <small>*</small>')) !!}
@@ -15,15 +15,12 @@
 			{!! $errors->first('price', '<div class="invalid-feedback">:message</div>') !!}
 		</div>
 	</div>
-
-	<div class="col-sm-12">
+</div>
+<div class="row">
+	<div class="col-sm-6">
 		<div class="form-group">
 			{!! Html::decode(Form::label('description', __('label.form.description'))) !!}
 			{!! Form::textarea('description', ((isset($service->description))? $service->description : '' ), ['class' => 'form-control ','style' => 'height: 121px;','placeholder' => 'description']) !!}
 		</div>
 	</div>
-	{{-- / .col --}}
-
 </div>
-{{-- / .row --}}
-
