@@ -28,7 +28,7 @@
 			<tbody>
 				@foreach($echo_default_descriptions as $i => $echo_default_description)
 					@php 
-						$record_locked = $echo_default_description->echos->count() > 0;
+						$record_locked = $echo_default_description->recordLocked();
 					@endphp
 					<tr>
 						<td class="text-center">{{ ++$i }}</td>
@@ -40,15 +40,17 @@
 								<a href="{{ route('echo_default_description.edit', $echo_default_description->id) }}" class="btn btn-info btn-xs btn-flat" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.edit') }}"><i class="fa fa-pencil-alt"></i></a>
 							@endcan
 
-							@if (Auth::user()->can('Echo Default Description Delete') && !$record_locked)
-								<button class="btn btn-danger btn-xs btn-flat BtnDeleteConfirm" value="{{ $echo_default_description->id }}" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.delete') }}"><i class="fa fa-trash-alt"></i></button>
-								{{ Form::open(['url'=>route('echo_default_description.destroy', $echo_default_description->id), 'id' => 'form-item-'.$echo_default_description->id, 'class' => 'sr-only']) }}
-								{{ Form::hidden('_method','DELETE') }}
-								{{ Form::hidden('passwordDelete','') }}
-								{{ Form::close() }}
-							@else
-								<button class="btn btn-danger btn-xs btn-flat disabled"><i class="fa fa-trash-alt"></i></button>
-							@endif
+							@can('Echo Default Description Delete')
+								@if (!$record_locked)
+									<button class="btn btn-danger btn-xs btn-flat BtnDeleteConfirm" value="{{ $echo_default_description->id }}" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.delete') }}"><i class="fa fa-trash-alt"></i></button>
+									{{ Form::open(['url'=>route('echo_default_description.destroy', $echo_default_description->id), 'id' => 'form-item-'.$echo_default_description->id, 'class' => 'sr-only']) }}
+									{{ Form::hidden('_method','DELETE') }}
+									{{ Form::hidden('passwordDelete','') }}
+									{{ Form::close() }}
+								@else
+									<button class="btn btn-danger btn-xs btn-flat disabled"><i class="fa fa-trash-alt"></i></button>
+								@endif
+							@endcan
 						</td>
 					</tr>
 				@endforeach

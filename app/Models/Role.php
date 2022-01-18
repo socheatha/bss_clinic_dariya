@@ -7,23 +7,23 @@ use Auth;
 
 class Role extends Model
 {
-	protected $table = 'roles';
-	
-	protected $fillable = [
-		'name', 'description',
-	];
+  protected $table = 'roles';
+
+  protected $fillable = [
+    'name', 'description',
+  ];
 
   public function users()
   {
-  	return $this->hasMany('App\Models\User', 'role_id');
+    return $this->hasMany('App\Models\User', 'role_id');
   }
-  
+
   public static function getSelectData()
   {
     if (Auth::user()->roles->first()->id == 1) {
       $collection = parent::all();
-    }else{
-      $collection = parent::where('id','>', 1)->get();
+    } else {
+      $collection = parent::where('id', '>', 1)->get();
     }
 
     $items = [];
@@ -33,5 +33,8 @@ class Role extends Model
     return $items;
   }
 
-
+  public function recordLocked()
+	{
+		return $this->users->count() > 0 || $this->id <=3;
+	}
 }

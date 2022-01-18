@@ -43,16 +43,16 @@
 						<td class="text-center"><span class="badge badge-secondary">{{ $count_permission }}</span></td>
 						<td class="text-center">
 
-							@can('Role Assign Permission') {{-- Assign Permission Button --}}
+							@can('Role Assign Permission')
 								<a href="{{ route('role.assign_permission', $role->id) }}" class="btn btn-primary btn-xs btn-flat" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.assign') }}"><i class="fa fa-user-tag"></i></a>
 							@endcan
 
-							@can('Role Edit') {{-- Edit Button --}}
+							@can('Role Edit')
 								<a href="{{ route('role.edit',$role->id) }}" class="btn btn-info btn-xs btn-flat" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.edit') }}"><i class="fa fa-pencil-alt"></i></a>
 							@endcan
 
-							@can('Role Delete') {{-- Delete Button --}}
-								@if($role->id > 3 && $count_user <= 0)
+							@can('Role Delete')
+								@if(!$record_locked)
 									<button class="btn btn-danger btn-xs btn-flat BtnDelete" value="{{ $role->id }}" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.delete') }}"><i class="fa fa-trash-alt"></i></button>
 									{{ Form::open(['url'=>route('role.destroy', $role->id), 'id' => 'form-item-'.$role->id, 'class' => 'sr-only']) }}
 									{{ Form::hidden('_method','DELETE') }}
@@ -61,7 +61,6 @@
 									<button class="btn btn-danger btn-xs btn-flat disabled"><i class="fa fa-trash-alt"></i></button>
 								@endif
 							@endcan
-
 						</td>
 					</tr>
 				@endforeach

@@ -41,8 +41,8 @@
 								<a href="{{ route('permission.edit',$permission->id) }}" class="btn btn-info btn-xs btn-flat" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.edit') }}"><i class="fa fa-pencil-alt"></i></a>
 							@endcan
 
-							@can('Permission Delete') {{-- Delete Button --}}
-								@if( $permission->id > 18 && $count_role <= 0)
+							@can('Permission Delete')
+								@if(!$record_locked)
 									<button class="btn btn-danger btn-xs btn-flat BtnDelete" value="{{ $permission->id }}" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.delete') }}"><i class="fa fa-trash-alt"></i></button>
 									{{ Form::open(['url'=>route('permission.destroy', $permission->id), 'id' => 'form-item-'.$permission->id, 'class' => 'sr-only']) }}
 									{{ Form::hidden('_method','DELETE') }}

@@ -296,4 +296,7 @@ class User extends Authenticatable
 		return $translated;
 	}
 
+	public function recordLocked () {
+		return true;
+	}
 }

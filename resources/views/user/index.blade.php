@@ -31,13 +31,13 @@
 			<tbody>
 				@foreach($users as $i => $user)
 					@php
-						$record_locked = true;
+						$record_locked = $user->recordLocked();
 						if (@$user->roles->first()->id == 1 && Auth::user()->roles->first()->id != 1) { continue; }
 					@endphp
 
 					<tr class="{{ $user->status == 0 ? 'bg-dark-red' : '' }}">
 						<td class="text-center">{{ ++$i }}</td>
-						<td>{{ $user->first_name }}</td>
+						<td>{!! $record_locked ? '<i class="fa fa-lock fa-fw"></i> ' : '' !!}{{ $user->first_name }}</td>
 						<td>{{ $user->last_name }}</td>
 						<td>{{ $user->email }}</td>
 						<td>{{ $user->phone }}</td>
@@ -56,15 +56,17 @@
 								<a href="{{ route('user.edit',$user->id) }}" class="btn btn-info btn-xs btn-flat" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.edit') }}"><i class="fa fa-pencil-alt"></i></a>
 							@endcan
 
-							@if (Auth::user()->can('User Delete') && !$record_locked)
-								<button class="btn btn-danger btn-xs btn-flat BtnDeleteConfirm" value="{{ $user->id }}" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.delete') }}"><i class="fa fa-trash-alt"></i></button>
-								{{ Form::open(['url'=>route('user.destroy', $user->id), 'id' => 'form-item-'.$user->id, 'class' => 'sr-only']) }}
-								{{ Form::hidden('_method','DELETE') }}
-								{{ Form::hidden('passwordDelete','') }}
-								{{ Form::close() }}
-							@else
-								<button class="btn btn-danger btn-xs btn-flat disabled"><i class="fa fa-trash-alt"></i></button>
-							@endif
+							@can('User Delete')
+								@if (!$record_locked)
+									<button class="btn btn-danger btn-xs btn-flat BtnDeleteConfirm" value="{{ $user->id }}" data-toggle="tooltip" data-placement="left" title="{{ __('label.buttons.delete') }}"><i class="fa fa-trash-alt"></i></button>
+									{{ Form::open(['url'=>route('user.destroy', $user->id), 'id' => 'form-item-'.$user->id, 'class' => 'sr-only']) }}
+									{{ Form::hidden('_method','DELETE') }}
+									{{ Form::hidden('passwordDelete','') }}
+									{{ Form::close() }}
+								@else
+									<button class="btn btn-danger btn-xs btn-flat disabled"><i class="fa fa-trash-alt"></i></button>
+								@endif
+							@endcan
 						</td>
 					</tr>
 				@endforeach
