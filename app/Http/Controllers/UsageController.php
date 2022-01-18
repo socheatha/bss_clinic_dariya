@@ -22,7 +22,7 @@ class UsageController extends Controller
 	public function index()
 	{
 		$this->data = [
-				'usages' => $this->usages->getData(),
+			'usages' => $this->usages->getData(),
 		];
 
 		return view('usage.index', $this->data);
@@ -33,20 +33,17 @@ class UsageController extends Controller
 		return $this->usages->getSelectDistrict($request);
 	}
 
-
 	public function create()
 	{
 		$this->data = [
-				'usages' => Usage::getSelectData('id', 'name', '', 'id' ,'asc'),
+			'usages' => Usage::getSelectData('id', 'name', '', 'id', 'asc'),
 		];
 		return view('usage.create', $this->data);
 	}
 
 	public function store(UsageRequest $request)
 	{
-		if ($this->usages->create($request)){
-
-			// Redirect
+		if ($this->usages->create($request)) {
 			return redirect()->route('usage.create')
 				->with('success', __('alert.crud.success.create', ['name' => Auth::user()->module()]) . $request->name);
 		}
@@ -55,31 +52,22 @@ class UsageController extends Controller
 	public function edit(Usage $usage)
 	{
 		$this->data = [
-				'usage' => $usage,
-				'usages' => Usage::getSelectData('id', 'name', '', 'id' ,'asc'),
+			'usage' => $usage,
+			'usages' => Usage::getSelectData('id', 'name', '', 'id', 'asc'),
 		];
-		
 		return view('usage.edit', $this->data);
 	}
 
-
-
 	public function update(UsageRequest $request, Usage $usage)
 	{
-
-		if ($this->usages->update($request, $usage)){
-
-			// Redirect
+		if ($this->usages->update($request, $usage)) {
 			return redirect()->route('usage.index')
 				->with('success', __('alert.crud.success.update', ['name' => Auth::user()->module()]) . $request->name);
 		}
 	}
 
-
-
 	public function destroy(Usage $usage)
 	{
-		// Redirect
 		return redirect()->route('usage.index')
 			->with('success', __('alert.crud.success.delete', ['name' => Auth::user()->module()]) . $this->usages->destroy($usage));
 	}
