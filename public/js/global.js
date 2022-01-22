@@ -239,4 +239,42 @@ $(document).ready(function () {
         $('#modal_dynamic_content').find('.modal-body').html($list_much_text[$(this).data('eq')]);
         $('#modal_dynamic_content').modal('show');
     });
+
+    // @Socheatha, Dynamic create modal + edit modal
+    function load_dymanic_create_modal (e) {
+        $win_height = $(window).height();
+        $modal = $('#modal_create_content');
+
+        $modal.find('.modal-dialog').css({'margin-top' : '20px'});
+        $modal.find('.modal-dialog .modal-content').css({'min-height' : ($win_height - 70) + 'px'});
+        $modal.find('.modal-dialog .modal-content img').show();
+
+        $('#iframe_create_content').css({'height' : ($win_height - 100) + 'px'});
+        $('#iframe_create_content').attr('src', e.attr('href'));
+        $('#iframe_create_content').hide();
+        $modal.modal('show');
+    }
+
+    if (window.is_load_dymanic_create_modal == '1') {
+        $('body .content .card .card-header .card-tools .btn-success .fa-plus').parent('a').on('click', function (e) {
+            e.preventDefault();
+            load_dymanic_create_modal($(this));
+        });
+
+        $(document).on('click', 'body .content .card .card-body table tr td:last-child .btn-info, body .content .card .card-body table tr th:last-child .btn-info', function (e) {
+            e.preventDefault();
+            load_dymanic_create_modal($(this));
+        });
+        
+        $("#iframe_create_content").on("load", function (e) {
+            $_this = $(this);
+            $_this.contents().find("body").addClass('is_loaded_by_modal');
+            $_this.contents().find("body").find('.content-wrapper .content').css('height', ($(window).height() - 100) + 'px');
+            $_this.show(); $('#modal_create_content .modal-dialog .modal-content img').hide();
+
+            $("#iframe_create_content")[0].contentWindow.onbeforeunload = function () {
+                $_this.hide(); $('#modal_create_content .modal-dialog .modal-content img').show();
+            };
+        });
+    }
 });

@@ -609,3 +609,21 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .bg-dark-red, .bg-dark-red:hover td {
   background-color: red; color: #fff;
 }
+
+body.is_loaded_by_modal {
+  background-color: #eee;
+}
+body.is_loaded_by_modal .main-sidebar, 
+body.is_loaded_by_modal .main-header,
+body.is_loaded_by_modal .content-wrapper .content .container-fluid > .card > .card-header .card-tools{
+  display: none;
+}
+body.is_loaded_by_modal .content-wrapper .content {
+  position: fixed; left: 0px; top: 0px; width: 100%;
+  background-color: #eee; overflow: scroll;
+}
+body.is_loaded_by_modal .content-wrapper,
+body.is_loaded_by_modal .content-wrapper .content,
+body.is_loaded_by_modal .content-wrapper .content .container-fluid {
+  padding: 0px; margin: 0
+}

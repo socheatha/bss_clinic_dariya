@@ -14,6 +14,10 @@
 	<link href="{{ asset('css/custom-style.css') }}" rel="stylesheet">
 	@yield('css')
 
+	<!-- pass value from php to js -->
+	<script>
+		window.is_load_dymanic_create_modal = <?php echo env('ENABLE_MODAL_CREATE_MODE', '0') ?>;
+	</script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapses text-sm">
 	@yield('print-area')
@@ -38,6 +42,7 @@
 					
 				</div><!-- /.container-fluid -->
 				@include('components.dynamic_modal_content')
+				@include('components.dynamic_modal_create')
 			</section>
 			<!-- /.content -->
 		</div>
