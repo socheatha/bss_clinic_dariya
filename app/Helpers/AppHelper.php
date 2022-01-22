@@ -27,4 +27,13 @@ class AppHelper
             return env('SQL_DUMP_PATH') ?: substr(__DIR__, 0, strpos(__DIR__, 'htdoc')) . '\mysql\bin\mysqldump';
         }
     }
+
+    public static function secure_element ($array = [], $key = '', $default = 'N/A', $return = true) {
+        $result = is_array($array) && !empty($key) && !empty($array[$key]) ? trim($array[$key]) : $default;
+        if ($return) {
+            return $result;
+        } else {
+            echo $result;
+        }
+    }
 }
